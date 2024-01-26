@@ -2,6 +2,8 @@ package main
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPerformPurchase(t *testing.T) {
@@ -22,23 +24,26 @@ func TestPerformPurchase(t *testing.T) {
 			expected: ArticlePurchase{
 				name:      "AirFryer",
 				stock:     18,
-				unitprice: 300,
+				unitprice: 150,
 				quantity:  2,
-				total:     600,
+				total:     300,
 			},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			//ap := NewArticlePurchase(tt.namearticle, tt.stock, tt.unitprice)
-			//actual := PerformPurchase(tt.quantity)
+			ap := NewArticlePurchase(tt.namearticle, tt.stock, tt.unitprice)
+			actual := PerformPurchase(tt.quantity, ap)
 
-			// if actual != tt.expected {
-			// 	t.Errorf("method Drive() = %v; expected %v", actual, tt.expected)
-			// } else {
-			// 	t.Logf("SUCCESS : method PerformPurchase() = %v; expected %v", actual, tt.expected)
-			// }
+			if actual != tt.expected {
+				t.Errorf("method PerformPurchase() = %v; expected %v", actual, tt.expected)
+			} else {
+				assert.Equal(t, actual.name, tt.expected.name)
+				assert.Equal(t, actual.stock, tt.expected.stock)
+				assert.Equal(t, actual.total, tt.expected.total)
+				t.Logf("SUCCESS : method PerformPurchase() = %v; expected %v", actual, tt.expected)
+			}
 		})
 	}
 
