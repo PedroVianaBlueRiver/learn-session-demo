@@ -18,11 +18,11 @@ func TestPerformPurchase(t *testing.T) {
 		{
 			name:        "Purchase a tv",
 			quantity:    2,
-			namearticle: "AirFryer",
+			namearticle: "TV",
 			stock:       20,
 			unitprice:   150,
 			expected: ArticlePurchase{
-				name:      "AirFryer",
+				name:      "TV",
 				stock:     18,
 				unitprice: 150,
 				quantity:  2,
@@ -47,4 +47,64 @@ func TestPerformPurchase(t *testing.T) {
 		})
 	}
 
+}
+
+func TestPerformPurchasev2(t *testing.T) {
+	tests := []struct {
+		name     string
+		quantity int
+		art      ArticlePurchase
+		expected ArticlePurchase
+	}{
+		{
+			name:     "PerformPurchasev2 AirFryer",
+			quantity: 2,
+			art: ArticlePurchase{
+				name:      "AirFryer",
+				stock:     20,
+				unitprice: 150,
+				quantity:  0,
+				total:     0,
+			},
+			expected: ArticlePurchase{
+				name:      "AirFryer",
+				stock:     18,
+				unitprice: 150,
+				quantity:  2,
+				total:     300,
+			},
+		},
+		{
+			name:     "PerformPurchasev2 Phone",
+			quantity: 3,
+			art: ArticlePurchase{
+				name:      "Phone",
+				stock:     20,
+				unitprice: 600,
+				quantity:  0,
+				total:     0,
+			},
+			expected: ArticlePurchase{
+				name:      "Phone",
+				stock:     17,
+				unitprice: 600,
+				quantity:  3,
+				total:     1800,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			art := tt.art
+			art.PerformPurchasev2(tt.quantity)
+
+			if art != tt.expected {
+				t.Errorf("method PerformPurchasev2(%v) = %v; expected %v", tt.quantity, art, tt.expected)
+			} else {
+
+				t.Logf("SUCCESS : PerformPurchasev2 PerformPurchasev2(%v) = %v; expected %v", tt.quantity, art, tt.expected)
+			}
+		})
+	}
 }
