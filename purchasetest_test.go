@@ -54,6 +54,8 @@ func TestPerformPurchase(t *testing.T) {
 }
 
 func TestPerformPurchasev2(t *testing.T) {
+
+	time := time.Now()
 	tests := []struct {
 		name     string
 		quantity int
@@ -74,6 +76,7 @@ func TestPerformPurchasev2(t *testing.T) {
 				name:      "AirFryer",
 				stock:     18,
 				unitprice: 150,
+				date:      time.Format("2006-01-02"),
 				quantity:  2,
 				total:     300,
 			},
@@ -92,6 +95,7 @@ func TestPerformPurchasev2(t *testing.T) {
 				name:      "Phone",
 				stock:     17,
 				unitprice: 600,
+				date:      time.Format("2006-01-02"),
 				quantity:  3,
 				total:     1800,
 			},
@@ -114,6 +118,7 @@ func TestPerformPurchasev2(t *testing.T) {
 }
 
 func TestPerformPurchasev3(t *testing.T) {
+	time := time.Now()
 	tests := []struct {
 		name     string
 		quantity int
@@ -150,6 +155,7 @@ func TestPerformPurchasev3(t *testing.T) {
 						stock:     8,
 						unitprice: 300,
 						quantity:  2,
+						date:      time.Format("2006-01-02"),
 						total:     600,
 					},
 					{
