@@ -2,11 +2,14 @@ package main
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPerformPurchase(t *testing.T) {
+	time := time.Now()
+
 	tests := []struct {
 		name        string
 		quantity    int
@@ -25,6 +28,7 @@ func TestPerformPurchase(t *testing.T) {
 				name:      "TV",
 				stock:     18,
 				unitprice: 150,
+				date:      time.Format("2006-01-02"),
 				quantity:  2,
 				total:     300,
 			},
