@@ -1,60 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"time"
 )
-
-// Create struct ArticlePurchase
-type ArticlePurchase struct {
-	name      string
-	stock     int
-	unitprice float64
-	date      string
-	quantity  int
-	total     float64
-}
-
-// Create an array of ArticlePurchase
-type ArrayArticlePurchase struct {
-	arraynode []ArticlePurchase
-}
-
-// Initialize a single struct with defailt values
-func NewArticlePurchase(name string, stock int, unitprice float64) *ArticlePurchase {
-	return &ArticlePurchase{
-		name:      name,
-		stock:     stock,
-		unitprice: unitprice,
-		date:      "",
-		quantity:  0,
-		total:     0,
-	}
-}
-
-// Initialize  struct array with defailt values
-func NewMultipleArticlePurchase() *ArrayArticlePurchase {
-	return &ArrayArticlePurchase{
-		[]ArticlePurchase{
-			{
-				name:      "TV",
-				stock:     10,
-				unitprice: 300,
-				date:      "",
-				quantity:  0,
-				total:     0,
-			},
-			{
-				name:      "Phone",
-				stock:     90,
-				unitprice: 120,
-				date:      "",
-				quantity:  0,
-				total:     0,
-			},
-		},
-	}
-}
 
 // method to performed a purchase processs and update existing stock
 func PerformPurchase(quantity int, purchase *ArticlePurchase) ArticlePurchase {
@@ -91,27 +39,28 @@ func (aap *ArrayArticlePurchase) PerformPurchasev3(quantity int, article string)
 
 }
 
-func main() {
+// func main() {
 
-	//Create new ArticlePurchase
-	time1 := time.Now()
-	fmt.Println(time1.Format("2006-01-01 "))
-	ap := NewArticlePurchase("TV", 3, 300)
-	fmt.Printf("ArticlePurchase struct %v", ap)
-	fmt.Println()
-	p1 := PerformPurchase(3, ap)
-	fmt.Printf("PerformPurchase() result = %v", p1)
-	fmt.Println()
+// 	//Create new ArticlePurchase
+// 	time1 := time.Now()
+// 	fmt.Println(time1.Format("2006-01-01 "))
+// 	ap := NewArticlePurchase("TV", 3, 300)
+// 	fmt.Printf("ArticlePurchase struct %v", ap)
+// 	fmt.Println()
+// 	p1 := PerformPurchase(3, ap)
+// 	fmt.Printf("PerformPurchase() result = %v", p1)
+// 	fmt.Println()
 
-	//method with a receiver argument
-	p2 := NewArticlePurchase("TV", 3, 300)
-	fmt.Printf("ArticlePurchase struct %v", p2)
-	fmt.Println()
-	p2.PerformPurchasev2(2)
-	fmt.Printf("PerformPurchasev2() result = %v", p2)
-	fmt.Println()
+// 	//method with a receiver argument
+// 	p2 := NewArticlePurchase("TV", 3, 300)
+// 	fmt.Printf("ArticlePurchase struct %v", p2)
+// 	fmt.Println()
+// 	p2.PerformPurchasev2(2)
+// 	fmt.Printf("PerformPurchasev2() result = %v", p2)
+// 	fmt.Println()
 
-	arrayp := NewMultipleArticlePurchase()
-	arrayp.PerformPurchasev3(3, "Phone")
-	fmt.Println(*arrayp)
-}
+// 	arrayp := NewMultipleArticlePurchase()
+// 	arrayp.PerformPurchasev3(3, "Phone")
+// 	fmt.Println(*arrayp)
+
+// }
