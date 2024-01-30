@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Create struct ArticlePurchase
 type ArticlePurchase struct {
 	name      string
 	stock     int
@@ -14,10 +15,12 @@ type ArticlePurchase struct {
 	total     float64
 }
 
+// Create an array of ArticlePurchase
 type ArrayArticlePurchase struct {
 	arraynode []ArticlePurchase
 }
 
+// Initialize a single struct with defailt values
 func NewArticlePurchase(name string, stock int, unitprice float64) *ArticlePurchase {
 	return &ArticlePurchase{
 		name:      name,
@@ -29,6 +32,7 @@ func NewArticlePurchase(name string, stock int, unitprice float64) *ArticlePurch
 	}
 }
 
+// Initialize  struct array with defailt values
 func NewMultipleArticlePurchase() *ArrayArticlePurchase {
 	return &ArrayArticlePurchase{
 		[]ArticlePurchase{
@@ -52,6 +56,7 @@ func NewMultipleArticlePurchase() *ArrayArticlePurchase {
 	}
 }
 
+// method to performed a purchase processs and update existing stock
 func PerformPurchase(quantity int, purchase *ArticlePurchase) ArticlePurchase {
 	time := time.Now()
 	purchase.date = time.Format("2006-01-02")
@@ -61,6 +66,7 @@ func PerformPurchase(quantity int, purchase *ArticlePurchase) ArticlePurchase {
 	return *purchase
 }
 
+// method to performed a purchase processs and update existing stock (using receiver param)
 func (ap *ArticlePurchase) PerformPurchasev2(quantity int) {
 	time := time.Now()
 	ap.date = time.Format("2006-01-02")
@@ -69,6 +75,7 @@ func (ap *ArticlePurchase) PerformPurchasev2(quantity int) {
 	ap.total = ap.unitprice * float64(quantity)
 }
 
+// method to performed a purchase processs and update existing stock in base on the array (using receiver param)
 func (aap *ArrayArticlePurchase) PerformPurchasev3(quantity int, article string) {
 	time := time.Now()
 
