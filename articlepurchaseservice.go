@@ -15,7 +15,11 @@ func (ap *ArticlePurchaseResponse) PerformPurchasev4(quantity int) {
 
 	case ap.at.quantity < quantity:
 		ap.issuccess = false
-		ap.response = fmt.Sprintf("There are just %v available in stock", ap.at.stock)
+		verb := "is"
+		if ap.at.stock > 1 {
+			verb = "are"
+		}
+		ap.response = fmt.Sprintf("There %v just %v available in stock", verb, ap.at.stock)
 
 	default:
 		ap.at.date = time.Format("2006-01-02")
