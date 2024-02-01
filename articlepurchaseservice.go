@@ -22,29 +22,3 @@ func (ap *ArticlePurchase) PerformPurchasev2(quantity int) {
 	ap.stock = ap.stock - quantity
 	ap.total = ap.unitprice * float64(quantity)
 }
-
-//func main() {
-
-//Create new ArticlePurchase
-// time1 := time.Now()
-// fmt.Println(time1.Format("2006-01-01 "))
-// ap := NewArticlePurchase("TV", 3, 300)
-// fmt.Printf("ArticlePurchase struct %v", ap)
-// fmt.Println()
-// p1 := PerformPurchase(3, ap)
-// fmt.Printf("PerformPurchase() result = %v", p1)
-// fmt.Println()
-
-// //method with a receiver argument
-// p2 := NewArticlePurchase("TV", 3, 300)
-// fmt.Printf("ArticlePurchase struct %v", p2)
-// fmt.Println()
-// p2.PerformPurchasev2(2)
-// fmt.Printf("PerformPurchasev2() result = %v", p2)
-// fmt.Println()
-
-// arrayp := NewMultipleArticlePurchase()
-// arrayp.PerformPurchasev3(3, "Phone")
-// fmt.Println(*arrayp)
-
-//}
