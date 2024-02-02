@@ -27,6 +27,20 @@ func DeleteItem(item map[int]ArticleModel, id int) (map[int]ArticleModel, bool, 
 	return item, true, ""
 }
 
+func updateItem(item map[int]ArticleModel, id, stock int, name string, unitprice float64) (map[int]ArticleModel, bool, string) {
+	if _, ok := item[id]; !ok {
+		return item, false, fmt.Sprintf("article with id: %v doesn't exist", id)
+	}
+
+	at := item[id]
+
+	at.stock = stock
+	at.name = name
+	at.unitprice = unitprice
+
+	return item, true, ""
+}
+
 func main() {
 	articleList := NewListMapArticle()
 	fmt.Println("GetItem(1) Initial Map: ", articleList)
@@ -41,6 +55,14 @@ func main() {
 
 	articleList = AddItem(articleList, 400, 6, "CPU", 1300)
 	fmt.Println("AddItem() Updated Map: ", articleList)
+
+	articleList, ok, msn = updateItem(articleList, 2, 20, "Phone", 310)
+
+	if !ok {
+		fmt.Println(msn)
+	} else {
+		fmt.Println("updateItem() Updated Map: ", articleList)
+	}
 
 	articleList, ok, msn = DeleteItem(articleList, 1)
 	if !ok {
