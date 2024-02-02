@@ -9,6 +9,7 @@ func main() {
 
 	//********************************************************************************************************************
 	//  articlepurchaseservice.go
+	fmt.Println("*************************************************articlepurchaseservice.go*******************************************************************")
 	time1 := time.Now()
 	fmt.Println(time1.Format("2006-01-01 "))
 	ap := NewArticlePurchase("TV", 3, 300)
@@ -28,13 +29,14 @@ func main() {
 
 	//********************************************************************************************************************
 	//  arrayarticlepurchase.go
-
+	fmt.Println("*************************************************arrayarticlepurchase.go*******************************************************************")
 	arrayp := NewMultipleArticlePurchase()
 	arrayp.PerformPurchasev3(3, "Phone")
 	fmt.Println(*arrayp)
 
 	//**********************************************************************************************************************
-	//  arrayarticlepurchaseservice.go
+	//  articlepurchaseResponse.go
+	fmt.Println("*************************************************articlepurchaseResponse.go*******************************************************************")
 	cont := 0
 	listPurchase := []struct {
 		name      string
