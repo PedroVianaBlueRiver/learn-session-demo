@@ -62,8 +62,8 @@ func createPurchase(id, quantity int) (map[int]ArticleModel, PurchaseModels, boo
 	}
 
 	//Validate existing stock
-	itemAM.stock = itemAM.stock - quantity
 	okvalidstock, msnresponse := itemAM.validateStock(quantity)
+	itemAM.stock = itemAM.stock - quantity
 	if !okvalidstock {
 		return map[int]ArticleModel{}, PurchaseModels{}, false, msnresponse
 	}
@@ -116,7 +116,7 @@ func main() {
 	}
 
 	fmt.Println("************************************************* createPurchase() *******************************************************************")
-	mapresponse, purchaseresponse, ok2, msn2 := createPurchase(1, 2)
+	mapresponse, purchaseresponse, ok2, msn2 := createPurchase(1, 5)
 	if !ok2 {
 		fmt.Println(msn2)
 	} else {
