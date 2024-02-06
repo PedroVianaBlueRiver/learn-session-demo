@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type ArticleModel struct {
 	name      string
 	stock     int
@@ -40,4 +42,28 @@ func NewListMapPruchase(articleId, quantity int, date string, total float64) *Pu
 		quantity:  quantity,
 		total:     total,
 	}
+}
+
+func (am ArticleModel) validateStock(quantity int) (bool, string) {
+	var issuccess bool
+	var response string
+	switch {
+	case am.stock == 0:
+		issuccess = false
+		response = "There is no article available in stock"
+
+	case am.stock < quantity:
+		issuccess = false
+		verb := "is"
+		if am.stock > 1 {
+			verb = "are"
+		}
+		response = fmt.Sprintf("There %v just %v(%v) available in stock", verb, am.stock, am.name)
+
+	default:
+		issuccess = true
+		response = ""
+	}
+
+	return issuccess, response
 }
