@@ -54,14 +54,21 @@ func createPurchase(id, quantity int) (map[int]ArticleModel, PurchaseModels, boo
 	lstAM := NewListMapArticle()
 	fmt.Println("Initial Map Article: ", lstAM)
 
+	//Get item by Id
 	itemAM, ok, msn := GetItem(lstAM, id)
 
 	if !ok {
 		return map[int]ArticleModel{}, PurchaseModels{}, false, msn
 	}
 
+	//Validate existing stock
+	okvalidstock, msnresponse := itemAM.validateStock(quantity)
 	itemAM.stock = itemAM.stock - quantity
+	if !okvalidstock {
+		return map[int]ArticleModel{}, PurchaseModels{}, false, msnresponse
+	}
 
+	//update the item after the purchase
 	totalpurchase := itemAM.unitprice * float64(quantity)
 	lstAM, ok1, msn1 := updateItem(lstAM, id, itemAM.stock, itemAM.name, itemAM.unitprice)
 
@@ -109,7 +116,7 @@ func main() {
 	}
 
 	fmt.Println("************************************************* createPurchase() *******************************************************************")
-	mapresponse, purchaseresponse, ok2, msn2 := createPurchase(1, 2)
+	mapresponse, purchaseresponse, ok2, msn2 := createPurchase(1, 5)
 	if !ok2 {
 		fmt.Println(msn2)
 	} else {
