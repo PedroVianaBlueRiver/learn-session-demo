@@ -17,7 +17,7 @@ func GetItem(item map[int]ArticleModel, id int) (ArticleModel, bool, string) {
 
 // Add Item of the map
 func AddItem(item map[int]ArticleModel, stock, id int, name string, unitprice float64) (map[int]ArticleModel, bool, string) {
-	if _, ok := item[id]; !ok {
+	if _, ok := item[id]; ok {
 		return item, false, fmt.Sprintf("article with id: %v already exists", id)
 	}
 	at := ArticleModel{name: name, unitprice: unitprice, stock: stock}
