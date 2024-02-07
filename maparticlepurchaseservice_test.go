@@ -172,3 +172,53 @@ func TestDeleteItem(t *testing.T) {
 	}
 
 }
+
+func TestUpdateItem(t *testing.T) {
+	tests := []struct {
+		name        string
+		id          int
+		expectedmsn string
+		expectedok  bool
+		nameat      string
+		stock       int
+		unitprice   float64
+		expected    ArticleModel
+	}{
+		{
+			name:        "test updateItem #1 success",
+			id:          1,
+			expectedmsn: "",
+			expectedok:  true,
+			nameat:      "Smart TV",
+			stock:       90,
+			unitprice:   1200,
+			expected: ArticleModel{
+				name:      "Smart TV",
+				stock:     90,
+				unitprice: 1200,
+			},
+		},
+		{
+			name:        "test updateItem #2 error",
+			id:          9,
+			expectedmsn: "article with id: 9 doesn't exist",
+			expectedok:  false,
+			expected:    ArticleModel{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			articleList := NewListMapArticle()
+			actual, ok, msn := updateItem(articleList, tt.id, tt.stock, tt.nameat, tt.unitprice)
+			assert.Equal(t, ok, tt.expectedok)
+			assert.Equal(t, msn, tt.expectedmsn)
+			actualItem := actual[tt.id]
+			if actualItem != tt.expected {
+				t.Errorf("there was an error during the test len expected actualItem = %v; expected %v", actualItem, tt.expected)
+			}
+
+		})
+	}
+
+}
