@@ -15,6 +15,11 @@ type PurchaseModels struct {
 	total     float64
 }
 
+type APModelRespose struct {
+	at map[int]ArticleModel
+	pm *PurchaseModels
+}
+
 func NewListMapArticle() map[int]ArticleModel {
 	return map[int]ArticleModel{
 		1: {
@@ -32,6 +37,13 @@ func NewListMapArticle() map[int]ArticleModel {
 			stock:     30,
 			unitprice: 190,
 		},
+	}
+}
+
+func NewAPModelRespose(at map[int]ArticleModel, pm PurchaseModels) *APModelRespose {
+	return &APModelRespose{
+		at: at,
+		pm: &pm,
 	}
 }
 
