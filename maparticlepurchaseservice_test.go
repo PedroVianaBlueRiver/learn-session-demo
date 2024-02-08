@@ -293,15 +293,16 @@ func TestCreatePurchase(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actualam, actualpm, ok, msn := createPurchase(tt.id, tt.quantity)
+			response := NewAPModelRespose(NewListMapArticle(), PurchaseModels{})
+			ok, msn := implementcreatePurchase(tt.id, tt.quantity, response)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
-			actualItem := actualam[tt.id]
+			actualItem := response.at[tt.id]
 			if actualItem != tt.expectedarticle {
 				t.Errorf("there was an error during the test  expected, actualItem = %v; expectedarticle %v", actualItem, tt.expectedarticle)
 			}
-			if actualpm != tt.expectedpurchase {
-				t.Errorf("there was an error during the test  expected, actualpm = %v; expectedpurchase %v", actualpm, tt.expectedpurchase)
+			if *response.pm != tt.expectedpurchase {
+				t.Errorf("there was an error during the test  expected, actualpm = %v; expectedpurchase %v", *response.pm, tt.expectedpurchase)
 			}
 
 		})
