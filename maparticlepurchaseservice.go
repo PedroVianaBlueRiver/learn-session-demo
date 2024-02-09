@@ -66,10 +66,10 @@ func (apr *APModelRespose) createPurchase(id, quantity int) (bool, string) {
 
 	//Validate existing stock
 	okvalidstock, msnresponse := itemAM.validateStock(quantity)
-	itemAM.stock = itemAM.stock - quantity
 	if !okvalidstock {
 		return false, msnresponse
 	}
+	itemAM.stock = itemAM.stock - quantity
 
 	//update the item after the purchase
 	totalpurchase := itemAM.unitprice * float64(quantity)
