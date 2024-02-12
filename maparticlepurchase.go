@@ -21,23 +21,42 @@ type APModelRespose struct {
 }
 
 func NewListMapArticle() map[int]ArticleModel {
-	return map[int]ArticleModel{
-		1: {
-			name:      "TV",
-			stock:     4,
-			unitprice: 130,
-		},
-		2: {
-			name:      "Phone",
-			stock:     5,
-			unitprice: 210,
-		},
-		4: {
-			name:      "AirFryer",
-			stock:     30,
-			unitprice: 190,
-		},
+
+	listMap := make(map[int]ArticleModel)
+	listMap[1] = ArticleModel{
+		name:      "TV",
+		stock:     4,
+		unitprice: 130,
 	}
+	listMap[2] = ArticleModel{
+		name:      "Phone",
+		stock:     5,
+		unitprice: 210,
+	}
+	listMap[4] = ArticleModel{
+		name:      "AirFryer",
+		stock:     30,
+		unitprice: 190,
+	}
+
+	return listMap
+	// return map[int]ArticleModel{
+	// 	1: {
+	// 		name:      "TV",
+	// 		stock:     4,
+	// 		unitprice: 130,
+	// 	},
+	// 	2: {
+	// 		name:      "Phone",
+	// 		stock:     5,
+	// 		unitprice: 210,
+	// 	},
+	// 	4: {
+	// 		name:      "AirFryer",
+	// 		stock:     30,
+	// 		unitprice: 190,
+	// 	},
+	// }
 }
 
 func NewAPModelRespose(at map[int]ArticleModel, pm PurchaseModels) *APModelRespose {
