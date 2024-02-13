@@ -294,7 +294,7 @@ func TestCreatePurchase(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			response := NewAPModelRespose(NewListMapArticle(), PurchaseModels{})
-			ok, msn := implementcreatePurchase(tt.id, tt.quantity, response)
+			ok, msn := createPurchase(tt.id, tt.quantity, response)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			actualItem := response.at[tt.id]
