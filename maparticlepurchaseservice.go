@@ -86,7 +86,7 @@ func (apr *APModelRespose) createPurchase(id, quantity int) (bool, string) {
 
 }
 
-func implementcreatePurchase(id, quantity int, ai APInterface) (bool, string) {
+func createPurchase(id, quantity int, ai APInterface) (bool, string) {
 	return ai.createPurchase(id, quantity)
 }
 
@@ -129,11 +129,12 @@ func main() {
 
 	fmt.Println("************************************************* createPurchase() *******************************************************************")
 	response := NewAPModelRespose(NewListMapArticle(), PurchaseModels{})
-	ok2, msn2 := implementcreatePurchase(1, 1, response)
+	ok2, msn2 := createPurchase(1, 1, response)
 	if !ok2 {
 		fmt.Println(msn2)
 	} else {
 		fmt.Println("Updated Map: ", response.at)
 		fmt.Println("purchase: ", response.pm)
 	}
+
 }
