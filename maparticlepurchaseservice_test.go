@@ -19,9 +19,9 @@ func TestGetItem(t *testing.T) {
 			name: "test GetItem #1 success",
 			id:   1,
 			expected: ArticleModel{
-				name:      "TV",
-				stock:     4,
-				unitprice: 130,
+				Name:      "TV",
+				Stock:     4,
+				Unitprice: 130,
 			},
 			expectedmsn: "",
 			expectedok:  true,
@@ -56,39 +56,39 @@ func TestAddItem(t *testing.T) {
 		expectedmsn string
 		expectedok  bool
 		id          int
-		stock       int
+		Stock       int
 		namet       string
-		unitprice   float64
+		Unitprice   float64
 		expected    map[int]ArticleModel
 	}{
 		{
 			name:        "test AddItem #1 success",
 			expectedmsn: "",
 			expectedok:  true,
-			stock:       20,
+			Stock:       20,
 			id:          6,
 			namet:       "CPU",
-			unitprice:   1300,
+			Unitprice:   1300,
 			expected: map[int]ArticleModel{
 				1: {
-					name:      "TV",
-					stock:     4,
-					unitprice: 130,
+					Name:      "TV",
+					Stock:     4,
+					Unitprice: 130,
 				},
 				2: {
-					name:      "Phone",
-					stock:     5,
-					unitprice: 210,
+					Name:      "Phone",
+					Stock:     5,
+					Unitprice: 210,
 				},
 				4: {
-					name:      "AirFryer",
-					stock:     30,
-					unitprice: 190,
+					Name:      "AirFryer",
+					Stock:     30,
+					Unitprice: 190,
 				},
 				6: {
-					name:      "CPU",
-					stock:     20,
-					unitprice: 1300,
+					Name:      "CPU",
+					Stock:     20,
+					Unitprice: 1300,
 				},
 			},
 		},
@@ -99,19 +99,19 @@ func TestAddItem(t *testing.T) {
 			id:          1,
 			expected: map[int]ArticleModel{
 				1: {
-					name:      "TV",
-					stock:     4,
-					unitprice: 130,
+					Name:      "TV",
+					Stock:     4,
+					Unitprice: 130,
 				},
 				2: {
-					name:      "Phone",
-					stock:     5,
-					unitprice: 210,
+					Name:      "Phone",
+					Stock:     5,
+					Unitprice: 210,
 				},
 				4: {
-					name:      "AirFryer",
-					stock:     30,
-					unitprice: 190,
+					Name:      "AirFryer",
+					Stock:     30,
+					Unitprice: 190,
 				},
 			},
 		},
@@ -120,7 +120,7 @@ func TestAddItem(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := NewListMapArticle()
-			actual, ok, msn := AddItem(articleList, tt.stock, tt.id, tt.namet, tt.unitprice)
+			actual, ok, msn := AddItem(articleList, tt.Stock, tt.id, tt.namet, tt.Unitprice)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			if actual == nil {
@@ -150,14 +150,14 @@ func TestDeleteItem(t *testing.T) {
 			expectedok:  true,
 			expected: map[int]ArticleModel{
 				1: {
-					name:      "TV",
-					stock:     4,
-					unitprice: 130,
+					Name:      "TV",
+					Stock:     4,
+					Unitprice: 130,
 				},
 				2: {
-					name:      "Phone",
-					stock:     5,
-					unitprice: 210,
+					Name:      "Phone",
+					Stock:     5,
+					Unitprice: 210,
 				},
 			},
 		},
@@ -168,19 +168,19 @@ func TestDeleteItem(t *testing.T) {
 			expectedok:  false,
 			expected: map[int]ArticleModel{
 				1: {
-					name:      "TV",
-					stock:     4,
-					unitprice: 130,
+					Name:      "TV",
+					Stock:     4,
+					Unitprice: 130,
 				},
 				2: {
-					name:      "Phone",
-					stock:     5,
-					unitprice: 210,
+					Name:      "Phone",
+					Stock:     5,
+					Unitprice: 210,
 				},
 				4: {
-					name:      "AirFryer",
-					stock:     30,
-					unitprice: 190,
+					Name:      "AirFryer",
+					Stock:     30,
+					Unitprice: 190,
 				},
 			},
 		},
@@ -209,8 +209,8 @@ func TestUpdateItem(t *testing.T) {
 		expectedmsn string
 		expectedok  bool
 		nameat      string
-		stock       int
-		unitprice   float64
+		Stock       int
+		Unitprice   float64
 		expected    ArticleModel
 	}{
 		{
@@ -219,12 +219,12 @@ func TestUpdateItem(t *testing.T) {
 			expectedmsn: "",
 			expectedok:  true,
 			nameat:      "Smart TV",
-			stock:       90,
-			unitprice:   1200,
+			Stock:       90,
+			Unitprice:   1200,
 			expected: ArticleModel{
-				name:      "Smart TV",
-				stock:     90,
-				unitprice: 1200,
+				Name:      "Smart TV",
+				Stock:     90,
+				Unitprice: 1200,
 			},
 		},
 		{
@@ -239,7 +239,7 @@ func TestUpdateItem(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := NewListMapArticle()
-			actual, ok, msn := updateItem(articleList, tt.id, tt.stock, tt.nameat, tt.unitprice)
+			actual, ok, msn := updateItem(articleList, tt.id, tt.Stock, tt.nameat, tt.Unitprice)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			actualItem := actual[tt.id]
@@ -270,15 +270,15 @@ func TestCreatePurchase(t *testing.T) {
 			expectedok:  true,
 			quantity:    2,
 			expectedarticle: ArticleModel{
-				name:      "TV",
-				stock:     2,
-				unitprice: 130,
+				Name:      "TV",
+				Stock:     2,
+				Unitprice: 130,
 			},
 			expectedpurchase: PurchaseModels{
-				articleId: 1,
-				date:      time.Format("2006-01-02"),
-				quantity:  2,
-				total:     260,
+				ArticleId: 1,
+				Date:      time.Format("2006-01-02"),
+				Quantity:  2,
+				Total:     260,
 			},
 		},
 		{
@@ -297,12 +297,12 @@ func TestCreatePurchase(t *testing.T) {
 			ok, msn := createPurchase(tt.id, tt.quantity, response)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
-			actualItem := response.at[tt.id]
+			actualItem := response.Nat[tt.id]
 			if actualItem != tt.expectedarticle {
 				t.Errorf("there was an error during the test  expected, actualItem = %v; expectedarticle %v", actualItem, tt.expectedarticle)
 			}
-			if *response.pm != tt.expectedpurchase {
-				t.Errorf("there was an error during the test  expected, actualpm = %v; expectedpurchase %v", *response.pm, tt.expectedpurchase)
+			if *response.Npm != tt.expectedpurchase {
+				t.Errorf("there was an error during the test  expected, actualpm = %v; expectedpurchase %v", *response.Npm, tt.expectedpurchase)
 			}
 
 		})

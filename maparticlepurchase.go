@@ -3,40 +3,40 @@ package main
 import "fmt"
 
 type ArticleModel struct {
-	name      string
-	stock     int
-	unitprice float64
+	Name      string  `json:"name"`
+	Stock     int     `json:"stock"`
+	Unitprice float64 `json:"unitprice"`
 }
 
 type PurchaseModels struct {
-	articleId int
-	date      string
-	quantity  int
-	total     float64
+	ArticleId int     `json:"articleId"`
+	Date      string  `json:"date"`
+	Quantity  int     `json:"quantity"`
+	Total     float64 `json:"total"`
 }
 
 type APModelRespose struct {
-	at map[int]ArticleModel
-	pm *PurchaseModels
+	Nat map[int]ArticleModel `json:"articlemodel"`
+	Npm *PurchaseModels      `json:"purchasemodel"`
 }
 
 func NewListMapArticle() map[int]ArticleModel {
 
 	listMap := make(map[int]ArticleModel)
 	listMap[1] = ArticleModel{
-		name:      "TV",
-		stock:     4,
-		unitprice: 130,
+		Name:      "TV",
+		Stock:     4,
+		Unitprice: 130,
 	}
 	listMap[2] = ArticleModel{
-		name:      "Phone",
-		stock:     5,
-		unitprice: 210,
+		Name:      "Phone",
+		Stock:     5,
+		Unitprice: 210,
 	}
 	listMap[4] = ArticleModel{
-		name:      "AirFryer",
-		stock:     30,
-		unitprice: 190,
+		Name:      "AirFryer",
+		Stock:     30,
+		Unitprice: 190,
 	}
 
 	return listMap
@@ -61,17 +61,17 @@ func NewListMapArticle() map[int]ArticleModel {
 
 func NewAPModelRespose(at map[int]ArticleModel, pm PurchaseModels) *APModelRespose {
 	return &APModelRespose{
-		at: at,
-		pm: &pm,
+		Nat: at,
+		Npm: &pm,
 	}
 }
 
 func NewListMapPruchase(articleId, quantity int, date string, total float64) *PurchaseModels {
 	return &PurchaseModels{
-		articleId: articleId,
-		date:      date,
-		quantity:  quantity,
-		total:     total,
+		ArticleId: articleId,
+		Date:      date,
+		Quantity:  quantity,
+		Total:     total,
 	}
 }
 
@@ -79,17 +79,17 @@ func (am ArticleModel) validateStock(quantity int) (bool, string) {
 	var issuccess bool
 	var response string
 	switch {
-	case am.stock == 0:
+	case am.Stock == 0:
 		issuccess = false
 		response = "There is no article available in stock"
 
-	case am.stock < quantity:
+	case am.Stock < quantity:
 		issuccess = false
 		verb := "is"
-		if am.stock > 1 {
+		if am.Stock > 1 {
 			verb = "are"
 		}
-		response = fmt.Sprintf("There %v just %v(%v) available in stock", verb, am.stock, am.name)
+		response = fmt.Sprintf("There %v just %v(%v) available in stock", verb, am.Stock, am.Name)
 
 	default:
 		issuccess = true

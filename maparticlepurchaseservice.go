@@ -20,7 +20,7 @@ func AddItem(item map[int]ArticleModel, stock, id int, name string, unitprice fl
 	if _, ok := item[id]; ok {
 		return item, false, fmt.Sprintf("article with id: %v already exists", id)
 	}
-	at := ArticleModel{name: name, unitprice: unitprice, stock: stock}
+	at := ArticleModel{Name: name, Unitprice: unitprice, Stock: stock}
 	item[id] = at
 
 	return item, true, ""
@@ -43,9 +43,9 @@ func updateItem(item map[int]ArticleModel, id, stock int, name string, unitprice
 
 	at := item[id]
 
-	at.stock = stock
-	at.name = name
-	at.unitprice = unitprice
+	at.Stock = stock
+	at.Name = name
+	at.Unitprice = unitprice
 	item[id] = at
 
 	return item, true, ""
@@ -54,7 +54,7 @@ func updateItem(item map[int]ArticleModel, id, stock int, name string, unitprice
 // create a purchaseModel and update the map[int]ArticleModel after performing a purchase
 func (apr *APModelRespose) createPurchase(id, quantity int) (bool, string) {
 	time := time.Now()
-	lstAM := apr.at
+	lstAM := apr.Nat
 	fmt.Println("Initial Map Article: ", lstAM)
 
 	//Get item by Id
@@ -69,19 +69,19 @@ func (apr *APModelRespose) createPurchase(id, quantity int) (bool, string) {
 	if !okvalidstock {
 		return false, msnresponse
 	}
-	itemAM.stock = itemAM.stock - quantity
+	itemAM.Stock = itemAM.Stock - quantity
 
 	//update the item after the purchase
-	totalpurchase := itemAM.unitprice * float64(quantity)
-	lstAM, ok1, msn1 := updateItem(lstAM, id, itemAM.stock, itemAM.name, itemAM.unitprice)
+	totalpurchase := itemAM.Unitprice * float64(quantity)
+	lstAM, ok1, msn1 := updateItem(lstAM, id, itemAM.Stock, itemAM.Name, itemAM.Unitprice)
 
 	if !ok1 {
 		return false, msn1
 	}
 
 	//Assign new values
-	apr.pm = NewListMapPruchase(id, quantity, time.Format("2006-01-02"), totalpurchase)
-	apr.at = lstAM
+	apr.Npm = NewListMapPruchase(id, quantity, time.Format("2006-01-02"), totalpurchase)
+	apr.Nat = lstAM
 	return true, ""
 
 }
@@ -98,9 +98,9 @@ func main() {
 	if !ok {
 		fmt.Println(msn)
 	} else {
-		fmt.Println("Article name: ", at.name)
-		fmt.Println("Article stock: ", at.stock)
-		fmt.Println("Article price: ", at.unitprice)
+		fmt.Println("Article name: ", at.Name)
+		fmt.Println("Article stock: ", at.Stock)
+		fmt.Println("Article price: ", at.Unitprice)
 	}
 	fmt.Println("************************************************* AddItem() *******************************************************************")
 	articleList, ok, msn = AddItem(articleList, 400, 6, "CPU", 1300)
@@ -133,8 +133,24 @@ func main() {
 	if !ok2 {
 		fmt.Println(msn2)
 	} else {
-		fmt.Println("Updated Map: ", response.at)
-		fmt.Println("purchase: ", response.pm)
+		fmt.Println("Updated Map: ", response.Nat)
+		fmt.Println("purchase: ", response.Npm)
 	}
+
+	fmt.Println("************************************************* Json() *******************************************************************")
+
+	datosJson, err := serializeJson(response.Nat)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(datosJson))
+
+	jsonString := `{"1":{"name":"TV","stock":3,"unitprice":130},"2":{"name":"Phone","stock":5,"unitprice":210},"4":{"name":"AirFryer","stock":30,"unitprice":190}}`
+	var amm map[int]ArticleModel
+	err2 := deserializeJson([]byte(jsonString), &amm)
+	if err2 != nil {
+		fmt.Println(err2)
+	}
+	fmt.Printf("%+v\n", amm)
 
 }
