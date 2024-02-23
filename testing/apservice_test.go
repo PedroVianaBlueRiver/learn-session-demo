@@ -1,8 +1,8 @@
 package main
 
 import (
+	"purchasetest/apservice"
 	"purchasetest/mapstructmodel"
-	"purchasetest/structmodel"
 	"testing"
 	"time"
 
@@ -15,12 +15,12 @@ func TestGetItem(t *testing.T) {
 		id          int
 		expectedmsn string
 		expectedok  bool
-		expected    structmodel.ArticleModel
+		expected    apservice.ArticleModel
 	}{
 		{
 			name: "test GetItem #1 success",
 			id:   1,
-			expected: structmodel.ArticleModel{
+			expected: apservice.ArticleModel{
 				Name:      "TV",
 				Stock:     4,
 				Unitprice: 130,
@@ -31,7 +31,7 @@ func TestGetItem(t *testing.T) {
 		{
 			name:        "test GetItem #2 error",
 			id:          70,
-			expected:    structmodel.ArticleModel{},
+			expected:    apservice.ArticleModel{},
 			expectedmsn: "article with id: 70 doesn't exist",
 			expectedok:  false,
 		},
@@ -40,7 +40,7 @@ func TestGetItem(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := mapstructmodel.NewListMapArticle()
-			actual, ok, msn := structmodel.GetItem(articleList, tt.id)
+			actual, ok, msn := apservice.GetItem(articleList, tt.id)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			if actual != tt.expected {
@@ -61,7 +61,7 @@ func TestAddItem(t *testing.T) {
 		Stock       int
 		namet       string
 		Unitprice   float64
-		expected    map[int]structmodel.ArticleModel
+		expected    map[int]apservice.ArticleModel
 	}{
 		{
 			name:        "test AddItem #1 success",
@@ -71,7 +71,7 @@ func TestAddItem(t *testing.T) {
 			id:          6,
 			namet:       "CPU",
 			Unitprice:   1300,
-			expected: map[int]structmodel.ArticleModel{
+			expected: map[int]apservice.ArticleModel{
 				1: {
 					Name:      "TV",
 					Stock:     4,
@@ -99,7 +99,7 @@ func TestAddItem(t *testing.T) {
 			expectedmsn: "article with id: 1 already exists",
 			expectedok:  false,
 			id:          1,
-			expected: map[int]structmodel.ArticleModel{
+			expected: map[int]apservice.ArticleModel{
 				1: {
 					Name:      "TV",
 					Stock:     4,
@@ -122,7 +122,7 @@ func TestAddItem(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := mapstructmodel.NewListMapArticle()
-			actual, ok, msn := structmodel.AddItem(articleList, tt.Stock, tt.id, tt.namet, tt.Unitprice)
+			actual, ok, msn := apservice.AddItem(articleList, tt.Stock, tt.id, tt.namet, tt.Unitprice)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			if actual == nil {
@@ -143,14 +143,14 @@ func TestDeleteItem(t *testing.T) {
 		id          int
 		expectedmsn string
 		expectedok  bool
-		expected    map[int]structmodel.ArticleModel
+		expected    map[int]apservice.ArticleModel
 	}{
 		{
 			name:        "test DeleteItem #1 success",
 			id:          4,
 			expectedmsn: "",
 			expectedok:  true,
-			expected: map[int]structmodel.ArticleModel{
+			expected: map[int]apservice.ArticleModel{
 				1: {
 					Name:      "TV",
 					Stock:     4,
@@ -168,7 +168,7 @@ func TestDeleteItem(t *testing.T) {
 			id:          7,
 			expectedmsn: "article with id: 7 doesn't exist",
 			expectedok:  false,
-			expected: map[int]structmodel.ArticleModel{
+			expected: map[int]apservice.ArticleModel{
 				1: {
 					Name:      "TV",
 					Stock:     4,
@@ -191,7 +191,7 @@ func TestDeleteItem(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := mapstructmodel.NewListMapArticle()
-			actual, ok, msn := structmodel.DeleteItem(articleList, tt.id)
+			actual, ok, msn := apservice.DeleteItem(articleList, tt.id)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 
@@ -213,7 +213,7 @@ func TestUpdateItem(t *testing.T) {
 		nameat      string
 		Stock       int
 		Unitprice   float64
-		expected    structmodel.ArticleModel
+		expected    apservice.ArticleModel
 	}{
 		{
 			name:        "test updateItem #1 success",
@@ -223,7 +223,7 @@ func TestUpdateItem(t *testing.T) {
 			nameat:      "Smart TV",
 			Stock:       90,
 			Unitprice:   1200,
-			expected: structmodel.ArticleModel{
+			expected: apservice.ArticleModel{
 				Name:      "Smart TV",
 				Stock:     90,
 				Unitprice: 1200,
@@ -234,14 +234,14 @@ func TestUpdateItem(t *testing.T) {
 			id:          9,
 			expectedmsn: "article with id: 9 doesn't exist",
 			expectedok:  false,
-			expected:    structmodel.ArticleModel{},
+			expected:    apservice.ArticleModel{},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			articleList := mapstructmodel.NewListMapArticle()
-			actual, ok, msn := structmodel.UpdateItem(articleList, tt.id, tt.Stock, tt.nameat, tt.Unitprice)
+			actual, ok, msn := apservice.UpdateItem(articleList, tt.id, tt.Stock, tt.nameat, tt.Unitprice)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			actualItem := actual[tt.id]
@@ -262,8 +262,8 @@ func TestCreatePurchase(t *testing.T) {
 		expectedmsn      string
 		expectedok       bool
 		quantity         int
-		expectedarticle  structmodel.ArticleModel
-		expectedpurchase structmodel.PurchaseModels
+		expectedarticle  apservice.ArticleModel
+		expectedpurchase apservice.PurchaseModels
 	}{
 		{
 			name:        "test CreatePurchase #1 success",
@@ -271,12 +271,12 @@ func TestCreatePurchase(t *testing.T) {
 			expectedmsn: "",
 			expectedok:  true,
 			quantity:    2,
-			expectedarticle: structmodel.ArticleModel{
+			expectedarticle: apservice.ArticleModel{
 				Name:      "TV",
 				Stock:     2,
 				Unitprice: 130,
 			},
-			expectedpurchase: structmodel.PurchaseModels{
+			expectedpurchase: apservice.PurchaseModels{
 				ArticleId: 1,
 				Date:      time.Format("2006-01-02"),
 				Quantity:  2,
@@ -289,14 +289,14 @@ func TestCreatePurchase(t *testing.T) {
 			expectedmsn:      "article with id: 30 doesn't exist",
 			expectedok:       false,
 			quantity:         2,
-			expectedarticle:  structmodel.ArticleModel{},
-			expectedpurchase: structmodel.PurchaseModels{},
+			expectedarticle:  apservice.ArticleModel{},
+			expectedpurchase: apservice.PurchaseModels{},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			response := structmodel.NewAPModelRespose(mapstructmodel.NewListMapArticle(), structmodel.PurchaseModels{})
-			ok, msn := structmodel.CreatePurchase(tt.id, tt.quantity, response)
+			response := apservice.NewAPModelRespose(mapstructmodel.NewListMapArticle(), apservice.PurchaseModels{})
+			ok, msn := apservice.CreatePurchase(tt.id, tt.quantity, response)
 			assert.Equal(t, ok, tt.expectedok)
 			assert.Equal(t, msn, tt.expectedmsn)
 			actualItem := response.Nat[tt.id]

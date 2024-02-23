@@ -1,21 +1,21 @@
 package mapstructmodel
 
-import "purchasetest/structmodel"
+import "purchasetest/apservice"
 
-func NewListMapArticle() map[int]structmodel.ArticleModel {
+func NewListMapArticle() map[int]apservice.ArticleModel {
 
-	listMap := make(map[int]structmodel.ArticleModel)
-	listMap[1] = structmodel.ArticleModel{
+	listMap := make(map[int]apservice.ArticleModel)
+	listMap[1] = apservice.ArticleModel{
 		Name:      "TV",
 		Stock:     4,
 		Unitprice: 130,
 	}
-	listMap[2] = structmodel.ArticleModel{
+	listMap[2] = apservice.ArticleModel{
 		Name:      "Phone",
 		Stock:     5,
 		Unitprice: 210,
 	}
-	listMap[4] = structmodel.ArticleModel{
+	listMap[4] = apservice.ArticleModel{
 		Name:      "AirFryer",
 		Stock:     30,
 		Unitprice: 190,

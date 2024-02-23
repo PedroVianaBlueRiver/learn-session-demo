@@ -1,4 +1,4 @@
-package structmodel
+package apservice
 
 type APModelRespose struct {
 	Nat map[int]ArticleModel `json:"articlemodel"`

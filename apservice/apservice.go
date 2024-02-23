@@ -1,4 +1,4 @@
-package structmodel
+package apservice
 
 import (
 	"fmt"

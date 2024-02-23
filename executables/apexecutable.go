@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
+	"purchasetest/apservice"
 	"purchasetest/mapstructmodel"
-	"purchasetest/structmodel"
 )
 
 func main() {
 	articleList := mapstructmodel.NewListMapArticle()
 	fmt.Println("************************************************* GetItem() *******************************************************************")
 	fmt.Println("GetItem(1) Initial Map: ", articleList)
-	at, ok, msn := structmodel.GetItem(articleList, 1)
+	at, ok, msn := apservice.GetItem(articleList, 1)
 	if !ok {
 		fmt.Println(msn)
 	} else {
@@ -19,7 +19,7 @@ func main() {
 		fmt.Println("Article price: ", at.Unitprice)
 	}
 	fmt.Println("************************************************* AddItem() *******************************************************************")
-	articleList, ok, msn = structmodel.AddItem(articleList, 400, 6, "CPU", 1300)
+	articleList, ok, msn = apservice.AddItem(articleList, 400, 6, "CPU", 1300)
 	if !ok {
 		fmt.Println(msn)
 	} else {
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	fmt.Println("************************************************* updateItem() *******************************************************************")
-	articleList, ok, msn = structmodel.UpdateItem(articleList, 2, 20, "Phone", 310)
+	articleList, ok, msn = apservice.UpdateItem(articleList, 2, 20, "Phone", 310)
 
 	if !ok {
 		fmt.Println(msn)
@@ -36,7 +36,7 @@ func main() {
 	}
 
 	fmt.Println("************************************************* DeleteItem() *******************************************************************")
-	articleList, ok, msn = structmodel.DeleteItem(articleList, 1)
+	articleList, ok, msn = apservice.DeleteItem(articleList, 1)
 	if !ok {
 		fmt.Println(msn)
 	} else {
@@ -44,8 +44,8 @@ func main() {
 	}
 
 	fmt.Println("************************************************* createPurchase() *******************************************************************")
-	response := structmodel.NewAPModelRespose(mapstructmodel.NewListMapArticle(), structmodel.PurchaseModels{})
-	ok2, msn2 := structmodel.CreatePurchase(1, 1, response)
+	response := apservice.NewAPModelRespose(mapstructmodel.NewListMapArticle(), apservice.PurchaseModels{})
+	ok2, msn2 := apservice.CreatePurchase(1, 1, response)
 	if !ok2 {
 		fmt.Println(msn2)
 	} else {

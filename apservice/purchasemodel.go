@@ -1,4 +1,4 @@
-package structmodel
+package apservice
 
 type PurchaseModels struct {
 	ArticleId int     `json:"articleId"`
