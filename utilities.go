@@ -32,19 +32,19 @@ func hello(done chan bool) {
 	done <- true
 }
 
-// func main() {
+func main() {
 
-// 	done := make(chan bool)
-// 	fmt.Println("Main going to call hello go goroutine")
-// 	go hello(done)
-// 	<-done
-// 	fmt.Println("Main received data")
+	done := make(chan bool)
+	fmt.Println("Main going to call hello go goroutine")
+	go hello(done)
+	<-done
+	fmt.Println("Main received data")
 
-// 	// number := 589
-// 	// sqrch := make(chan int)
-// 	// cubech := make(chan int)
-// 	// go calcSquares(number, sqrch)
-// 	// go calcCubes(number, cubech)
-// 	// squares, cubes := <-sqrch, <-cubech
-// 	// fmt.Println("Final output", squares+cubes)
-// }
+	// number := 589
+	// sqrch := make(chan int)
+	// cubech := make(chan int)
+	// go calcSquares(number, sqrch)
+	// go calcCubes(number, cubech)
+	// squares, cubes := <-sqrch, <-cubech
+	// fmt.Println("Final output", squares+cubes)
+}
