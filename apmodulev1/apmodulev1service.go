@@ -1,4 +1,4 @@
-package main
+package apmodulev1
 
 import (
 	"time"
@@ -7,18 +7,18 @@ import (
 // method to performed a purchase processs and update existing stock
 func PerformPurchase(quantity int, purchase *ArticlePurchase) ArticlePurchase {
 	time := time.Now()
-	purchase.date = time.Format("2006-01-02")
-	purchase.quantity = quantity
-	purchase.stock = purchase.stock - quantity
-	purchase.total = purchase.unitprice * float64(quantity)
+	purchase.Date = time.Format("2006-01-02")
+	purchase.Quantity = quantity
+	purchase.Stock = purchase.Stock - quantity
+	purchase.Total = purchase.Unitprice * float64(quantity)
 	return *purchase
 }
 
 // method to performed a purchase processs and update existing stock (using receiver param)
 func (ap *ArticlePurchase) PerformPurchasev2(quantity int) {
 	time := time.Now()
-	ap.date = time.Format("2006-01-02")
-	ap.quantity = quantity
-	ap.stock = ap.stock - quantity
-	ap.total = ap.unitprice * float64(quantity)
+	ap.Date = time.Format("2006-01-02")
+	ap.Quantity = quantity
+	ap.Stock = ap.Stock - quantity
+	ap.Total = ap.Unitprice * float64(quantity)
 }
