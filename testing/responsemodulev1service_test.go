@@ -52,7 +52,7 @@ func TestPerformPurchasev4_MessageValidation(t *testing.T) {
 				t.Errorf("message received = %v; expected %v", ap.Response, tt.expected.Response)
 			} else {
 				assert.Equal(t, ap.Response, tt.expected.Response)
-				assert.Equal(t, ap.Response, tt.expected.Issuccess)
+				assert.Equal(t, ap.Issuccess, tt.expected.Issuccess)
 
 			}
 		})
