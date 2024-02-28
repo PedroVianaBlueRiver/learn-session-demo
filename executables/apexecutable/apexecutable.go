@@ -53,21 +53,4 @@ func main() {
 		fmt.Println("purchase: ", response.Npm)
 	}
 
-	fmt.Println("************************************************* Json() *******************************************************************")
-
-	// 	datosJson, err := serializeJson(response.Nat)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
-	// 	fmt.Println(string(datosJson))
-
-	// 	jsonString := `{"1":{"name":"TV","stock":3,"unitprice":130},"2":{"name":"Phone","stock":5,"unitprice":210},"4":{"name":"AirFryer","stock":30,"unitprice":190}}`
-	// 	var amm map[int]ArticleModel
-	// 	err2 := deserializeJson([]byte(jsonString), &amm)
-	// 	if err2 != nil {
-	// 		fmt.Println(err2)
-	// 	}
-	// 	fmt.Printf("%+v\n", amm)
-
-	// }
 }
