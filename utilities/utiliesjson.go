@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func serializeJson(v any) ([]byte, error) {
+func SerializeJson(v any) ([]byte, error) {
 	contentJson, err := json.Marshal(v)
 	if err != nil {
 
@@ -15,7 +15,7 @@ func serializeJson(v any) ([]byte, error) {
 	return contentJson, nil
 }
 
-func deserializeJson(content []byte, v any) error {
+func DeserializeJson(content []byte, v any) error {
 	model := v
 	err := json.Unmarshal([]byte(content), &model)
 	if err != nil {
