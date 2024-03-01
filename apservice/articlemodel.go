@@ -8,6 +8,14 @@ type ArticleModel struct {
 	Unitprice float64 `json:"unitprice"`
 }
 
+func NewArticleModel(name string, stock int, unitprice float64) *ArticleModel {
+	return &ArticleModel{
+		Name:      name,
+		Stock:     stock,
+		Unitprice: unitprice,
+	}
+}
+
 func (am ArticleModel) ValidateStock(quantity int) (bool, string) {
 	var issuccess bool
 	var response string
