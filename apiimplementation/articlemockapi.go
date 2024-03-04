@@ -39,3 +39,10 @@ func PutUpdateArticleApi(article *ApiArticleResponse) any {
 
 	return response
 }
+
+func DeleteArticleApi(id string) any {
+	url := "/articlemap/" + id
+	response := apiserviceclient.DeleteApi(url)
+
+	return response
+}

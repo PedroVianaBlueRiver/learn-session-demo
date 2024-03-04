@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"purchasetest/apiimplementation"
-	"purchasetest/apservice"
 )
 
 func main() {
@@ -14,7 +13,10 @@ func main() {
 	// postresponse := apiimplementation.PostCreateArticleApi(at)
 	// fmt.Println(postresponse)
 
-	Putat := apiimplementation.NewApiArticleResponse("9", *apservice.NewArticleModel("Nike Jersey England", 24, 802))
-	putresponse := apiimplementation.PutUpdateArticleApi(Putat)
-	fmt.Println(putresponse)
+	// Putat := apiimplementation.NewApiArticleResponse("9", *apservice.NewArticleModel("Nike Jersey England", 24, 802))
+	// putresponse := apiimplementation.PutUpdateArticleApi(Putat)
+	// fmt.Println(putresponse)
+
+	deleteAt := apiimplementation.DeleteArticleApi("20")
+	fmt.Println(deleteAt)
 }
