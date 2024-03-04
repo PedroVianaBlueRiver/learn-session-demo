@@ -2,8 +2,10 @@ package apiimplementation
 
 import apiserviceclient "purchasetest/apiimplementation/apiserviceClient"
 
+const sUrl string = "https://65e0b4ced3db23f76249e825.mockapi.io/"
+
 func GetArticleApi() ([]ApiArticleResponse, error) {
-	url := "/articlemap"
+	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap"
 	var data []ApiArticleResponse
 	error := apiserviceclient.GetApi(url, &data)
 
@@ -15,7 +17,7 @@ func GetArticleApi() ([]ApiArticleResponse, error) {
 }
 
 func GetArticleByIdApi(id string) (ApiArticleResponse, error) {
-	url := "/articlemap/" + id
+	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap/" + id
 	var data ApiArticleResponse
 	error := apiserviceclient.GetApi(url, &data)
 
@@ -27,21 +29,21 @@ func GetArticleByIdApi(id string) (ApiArticleResponse, error) {
 }
 
 func PostCreateArticleApi(article *ApiArticleResponse) any {
-	url := "/articlemap/"
+	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap/"
 	response := apiserviceclient.PostApi(url, article)
 
 	return response
 }
 
 func PutUpdateArticleApi(article *ApiArticleResponse) any {
-	url := "/articlemap/" + article.Id
+	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap/" + article.Id
 	response := apiserviceclient.PutApi(url, article)
 
 	return response
 }
 
 func DeleteArticleApi(id string) any {
-	url := "/articlemap/" + id
+	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap/" + id
 	response := apiserviceclient.DeleteApi(url)
 
 	return response

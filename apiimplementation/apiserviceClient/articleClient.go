@@ -18,8 +18,8 @@ type httpResponseCustom struct {
 	StatusMessage string
 }
 
-func NewApi() *apiUrl {
-	return &apiUrl{Url: "https://65e0b4ced3db23f76249e825.mockapi.io/"}
+func NewApi(url string) *apiUrl {
+	return &apiUrl{Url: url}
 }
 
 func NewHttpResponseCustom(msnerror error, statusCode int, statusMessage string) *httpResponseCustom {
@@ -29,7 +29,7 @@ func NewHttpResponseCustom(msnerror error, statusCode int, statusMessage string)
 }
 
 func GetApi(endpoint string, v any) error {
-	url := NewApi().Url + endpoint
+	url := endpoint
 	response, err := http.Get(url)
 	if err != nil {
 
@@ -60,7 +60,7 @@ func PostApi(endpoint string, v any) httpResponseCustom {
 		return *NewHttpResponseCustom(errorJson, 0, "")
 	}
 
-	resp, err := http.Post(NewApi().Url+endpoint, "application/json",
+	resp, err := http.Post(endpoint, "application/json",
 		bytes.NewBuffer(json_data))
 
 	if err != nil {
@@ -80,7 +80,7 @@ func PutApi(endpoint string, Model any) httpResponseCustom {
 		return *NewHttpResponseCustom(errorJson, 0, "")
 	}
 
-	resp, err := http.NewRequest(http.MethodPut, NewApi().Url+endpoint, bytes.NewBuffer(json_data))
+	resp, err := http.NewRequest(http.MethodPut, endpoint, bytes.NewBuffer(json_data))
 	if err != nil {
 		return *NewHttpResponseCustom(err, resp.Response.StatusCode, resp.Response.Status)
 	}
@@ -100,7 +100,7 @@ func DeleteApi(endpoint string) httpResponseCustom {
 	client := &http.Client{}
 
 	// create a new DELETE request
-	req, err := http.NewRequest(http.MethodDelete, NewApi().Url+endpoint, nil)
+	req, err := http.NewRequest(http.MethodDelete, endpoint, nil)
 	if err != nil {
 		return *NewHttpResponseCustom(err, 0, "")
 	}
