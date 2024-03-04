@@ -95,3 +95,18 @@ func PutApi(endpoint string, Model any) httpResponseCustom {
 	defer resp1.Body.Close()
 	return *NewHttpResponseCustom(err1, resp1.StatusCode, resp1.Status)
 }
+
+func DeleteApi(endpoint string) httpResponseCustom {
+	client := &http.Client{}
+
+	// create a new DELETE request
+	req, err := http.NewRequest(http.MethodDelete, NewApi().Url+endpoint, nil)
+	if err != nil {
+		return *NewHttpResponseCustom(err, 0, "")
+	}
+
+	// send the request
+	resp, err := client.Do(req)
+	return *NewHttpResponseCustom(err, resp.StatusCode, resp.Status)
+
+}
