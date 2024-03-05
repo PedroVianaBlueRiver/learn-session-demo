@@ -4,28 +4,20 @@ import apiserviceclient "purchasetest/apiimplementation/apiserviceClient"
 
 const sUrl string = "https://65e0b4ced3db23f76249e825.mockapi.io/"
 
-func GetArticleApi() ([]ApiArticleResponse, error) {
+func GetArticleApi() ([]ApiArticleResponse, any) {
 	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap"
 	var data []ApiArticleResponse
-	error := apiserviceclient.GetApi(url, &data)
+	response := apiserviceclient.GetApi(url, &data)
 
-	if error != nil {
-		return nil, error
-	}
-
-	return data, nil
+	return data, response
 }
 
-func GetArticleByIdApi(id string) (ApiArticleResponse, error) {
+func GetArticleByIdApi(id string) (ApiArticleResponse, any) {
 	url := apiserviceclient.NewApi(sUrl).Url + "/articlemap/" + id
 	var data ApiArticleResponse
-	error := apiserviceclient.GetApi(url, &data)
+	response := apiserviceclient.GetApi(url, &data)
 
-	if error != nil {
-		return ApiArticleResponse{}, error
-	}
-
-	return data, nil
+	return data, response
 }
 
 func PostCreateArticleApi(article *ApiArticleResponse) any {

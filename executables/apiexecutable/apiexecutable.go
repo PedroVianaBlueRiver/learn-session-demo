@@ -17,6 +17,6 @@ func main() {
 	// putresponse := apiimplementation.PutUpdateArticleApi(Putat)
 	// fmt.Println(putresponse)
 
-	deleteAt := apiimplementation.DeleteArticleApi("20")
-	fmt.Println(deleteAt)
+	// deleteAt := apiimplementation.DeleteArticleApi("20")
+	// fmt.Println(deleteAt)
 }

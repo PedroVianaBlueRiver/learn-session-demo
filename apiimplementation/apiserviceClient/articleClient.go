@@ -23,34 +23,36 @@ func NewApi(url string) *apiUrl {
 }
 
 func NewHttpResponseCustom(msnerror error, statusCode int, statusMessage string) *httpResponseCustom {
-	return &httpResponseCustom{MsnError: msnerror,
+	return &httpResponseCustom{
+		MsnError:      msnerror,
 		StatusCode:    statusCode,
-		StatusMessage: statusMessage}
+		StatusMessage: statusMessage,
+	}
 }
 
-func GetApi(endpoint string, v any) error {
+func GetApi(endpoint string, v any) httpResponseCustom {
 	url := endpoint
 	response, err := http.Get(url)
 	if err != nil {
 
 		os.Exit(1)
-		return err
+		return *NewHttpResponseCustom(err, response.StatusCode, response.Status)
 	}
 
 	defer response.Body.Close()
 
 	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return err
+		return *NewHttpResponseCustom(err, 0, "")
 	}
 
 	var amm = v
 	err = utilities.DeserializeJson(responseData, &amm)
 	if err != nil {
-		return err
+		return *NewHttpResponseCustom(err, response.StatusCode, response.Status)
 	}
 
-	return nil
+	return *NewHttpResponseCustom(err, response.StatusCode, response.Status)
 }
 
 func PostApi(endpoint string, v any) httpResponseCustom {

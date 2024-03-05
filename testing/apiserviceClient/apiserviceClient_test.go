@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	constants "purchasetest/Constants"
 	"purchasetest/apiimplementation"
 	apiserviceclient "purchasetest/apiimplementation/apiserviceClient"
 	"purchasetest/apservice"
@@ -16,21 +17,31 @@ func TestGetArticle(t *testing.T) {
 	jsonResponse := `[{"article":{"name":"TV","stock":3,"unitprice":130},"id":"1"},
 	{"article":{"name":"Phone","stock":5,"unitprice":210},"id":"2"}]`
 
-	dataexpected := []apiimplementation.ApiArticleResponse{
-		{
-			Id: "1",
-			Article: apservice.ArticleModel{
-				Name:      "TV",
-				Stock:     3,
-				Unitprice: 130,
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+		modelexpected      []apiimplementation.ApiArticleResponse
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusOK),
+		statusexpected:     "200 OK",
+		modelexpected: []apiimplementation.ApiArticleResponse{
+			{
+				Id: "1",
+				Article: apservice.ArticleModel{
+					Name:      "TV",
+					Stock:     3,
+					Unitprice: 130,
+				},
 			},
-		},
-		{
-			Id: "2",
-			Article: apservice.ArticleModel{
-				Name:      "Phone",
-				Stock:     5,
-				Unitprice: 210,
+			{
+				Id: "2",
+				Article: apservice.ArticleModel{
+					Name:      "Phone",
+					Stock:     5,
+					Unitprice: 210,
+				},
 			},
 		},
 	}
@@ -42,17 +53,21 @@ func TestGetArticle(t *testing.T) {
 		}))
 		defer svr.Close()
 		c := svr.URL
-		var data []apiimplementation.ApiArticleResponse = []apiimplementation.ApiArticleResponse{{Id: "", Article: apservice.ArticleModel{}}}
+		var data []apiimplementation.ApiArticleResponse
 
-		err := apiserviceclient.GetApi(c, &data)
-		if err != nil {
-			t.Errorf("expected err to be nil got %v", err)
+		resp := apiserviceclient.GetApi(c, &data)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
 		}
-
-		assert.Equal(t, dataexpected, data)
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
 		if data == nil {
-			t.Errorf("expected err to be nil got %v", data)
+			t.Errorf("data is nil")
 		}
+
+		assert.Equal(t, expectedData.modelexpected, data)
+
 	})
 
 }
