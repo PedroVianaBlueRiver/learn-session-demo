@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"purchasetest/utilities"
 )
 
@@ -32,10 +31,10 @@ func NewHttpResponseCustom(msnerror error, statusCode int, statusMessage string)
 
 func GetApi(endpoint string, v any) httpResponseCustom {
 	url := endpoint
+	var amm = v
 	response, err := http.Get(url)
 	if err != nil {
 
-		os.Exit(1)
 		return *NewHttpResponseCustom(err, response.StatusCode, response.Status)
 	}
 
@@ -46,7 +45,6 @@ func GetApi(endpoint string, v any) httpResponseCustom {
 		return *NewHttpResponseCustom(err, 0, "")
 	}
 
-	var amm = v
 	err = utilities.DeserializeJson(responseData, &amm)
 	if err != nil {
 		return *NewHttpResponseCustom(err, response.StatusCode, response.Status)

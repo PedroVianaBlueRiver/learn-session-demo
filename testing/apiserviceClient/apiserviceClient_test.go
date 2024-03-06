@@ -71,3 +71,87 @@ func TestGetArticle(t *testing.T) {
 	})
 
 }
+
+func TestGetArticleById(t *testing.T) {
+	jsonResponse := `{
+		"article": {
+			"name": "Phone",
+			"stock": 5,
+			"unitprice": 210
+		},
+		"id": "2"
+	}`
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+		modelexpected      apiimplementation.ApiArticleResponse
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusOK),
+		statusexpected:     "200 OK",
+		modelexpected:      *apiimplementation.NewApiArticleResponse("2", *apservice.NewArticleModel("Phone", 5, 210)),
+	}
+
+	t.Run("Test GetApi By Id to retrieve a single result", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, jsonResponse)
+		}))
+		defer svr.Close()
+		c := svr.URL
+		var data apiimplementation.ApiArticleResponse
+
+		resp := apiserviceclient.GetApi(c, &data)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+		assert.Equal(t, expectedData.modelexpected, data)
+
+	})
+
+}
+
+func TestGetArticleBadRequest(t *testing.T) {
+	jsonResponse := ``
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+		modelexpected      apiimplementation.ApiArticleResponse
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusNotFound),
+		statusexpected:     "404 Not Found",
+		modelexpected:      apiimplementation.ApiArticleResponse{},
+	}
+
+	t.Run("Test GetApi to obtain a bad request", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusNotFound)
+			fmt.Fprintf(w, jsonResponse)
+		}))
+		defer svr.Close()
+		c := svr.URL
+		var data apiimplementation.ApiArticleResponse
+
+		resp := apiserviceclient.GetApi(c, &data)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+		assert.Equal(t, expectedData.modelexpected, data)
+
+	})
+
+}
