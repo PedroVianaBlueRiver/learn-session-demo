@@ -132,7 +132,7 @@ func TestGetArticleBadRequest(t *testing.T) {
 		modelexpected:      apiimplementation.ApiArticleResponse{},
 	}
 
-	t.Run("Test GetApi to obtain a bad request", func(t *testing.T) {
+	t.Run("Test GetApi to obtain 404 not found", func(t *testing.T) {
 
 		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
