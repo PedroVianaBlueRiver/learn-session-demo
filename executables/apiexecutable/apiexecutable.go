@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	fmt.Println(apiimplementation.GetArticleApi())
-	// apiimplementation.GetArticleByIdApi("3")
+	//fmt.Println(apiimplementation.GetArticleApi())
+	fmt.Println(apiimplementation.GetArticleByIdApi("38"))
 
 	// at := apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Bed Srping air", 20, 400))
 	// postresponse := apiimplementation.PostCreateArticleApi(at)
@@ -17,6 +17,6 @@ func main() {
 	// putresponse := apiimplementation.PutUpdateArticleApi(Putat)
 	// fmt.Println(putresponse)
 
-	deleteAt := apiimplementation.DeleteArticleApi("20")
-	fmt.Println(deleteAt)
+	// deleteAt := apiimplementation.DeleteArticleApi("20")
+	// fmt.Println(deleteAt)
 }
