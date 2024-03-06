@@ -117,7 +117,7 @@ func TestGetArticleById(t *testing.T) {
 
 }
 
-func TestGetArticleBadRequest(t *testing.T) {
+func TestGetArticle404NotFound(t *testing.T) {
 	jsonResponse := ``
 
 	type testData struct {
