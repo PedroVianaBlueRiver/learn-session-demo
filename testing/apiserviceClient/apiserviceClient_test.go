@@ -434,6 +434,39 @@ func TestPut500StatusInternalServerError(t *testing.T) {
 	})
 }
 
+func TestDeleteApi200OK(t *testing.T) {
+
+	idEndpint := "2"
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusOK),
+		statusexpected:     "200 OK",
+	}
+
+	t.Run("Test Delete API for creating an ApiArticleResponse ", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+		}))
+		defer svr.Close()
+		c := svr.URL + "/" + idEndpint
+
+		resp := apiserviceclient.DeleteApi(c)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
+}
+
 func TestDeleteApi400BadRequest(t *testing.T) {
 
 	idEndpint := "2"
