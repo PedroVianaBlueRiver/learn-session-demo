@@ -334,3 +334,69 @@ func TestPost500StatusInternalServerError(t *testing.T) {
 
 	})
 }
+
+func TestPut400BadRequest(t *testing.T) {
+
+	modelPayload := *apiimplementation.NewApiArticleResponse("2", *apservice.NewArticleModel("Phone", 5, 210))
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusBadRequest),
+		statusexpected:     "400 Bad Request",
+	}
+
+	t.Run("Test PostApi to obtain 400 Bad Request", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusBadRequest)
+		}))
+		defer svr.Close()
+		c := svr.URL
+
+		resp := apiserviceclient.PutApi(c, modelPayload)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
+}
+
+func TestPut500StatusInternalServerError(t *testing.T) {
+
+	modelPayload := *apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Phone", 5, 210))
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusInternalServerError),
+		statusexpected:     "500 Internal Server Error",
+	}
+
+	t.Run("Test PostApi to obtain 500 Internal Server Error", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusInternalServerError)
+		}))
+		defer svr.Close()
+		c := svr.URL
+
+		resp := apiserviceclient.PutApi(c, modelPayload)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
+}
