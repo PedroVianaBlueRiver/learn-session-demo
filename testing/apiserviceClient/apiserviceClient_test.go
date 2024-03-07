@@ -49,6 +49,7 @@ func TestGetArticle(t *testing.T) {
 	t.Run("Test GetApi to retrieve a list of ApiArticleResponse", func(t *testing.T) {
 
 		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
 			fmt.Fprintf(w, jsonResponse)
 		}))
 		defer svr.Close()
@@ -97,6 +98,7 @@ func TestGetArticleById(t *testing.T) {
 	t.Run("Test GetApi By Id to retrieve a single result", func(t *testing.T) {
 
 		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
 			fmt.Fprintf(w, jsonResponse)
 		}))
 		defer svr.Close()
@@ -193,4 +195,142 @@ func TestGetArticle400BadRequest(t *testing.T) {
 
 	})
 
+}
+
+func TestGetArticle500StatusInternalServerError(t *testing.T) {
+	jsonResponse := ``
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+		modelexpected      apiimplementation.ApiArticleResponse
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusInternalServerError),
+		statusexpected:     "500 Internal Server Error",
+		modelexpected:      apiimplementation.ApiArticleResponse{},
+	}
+
+	t.Run("Test GetApi to obtain 500 Internal Server Error", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprintf(w, jsonResponse)
+		}))
+		defer svr.Close()
+		c := svr.URL
+		var data apiimplementation.ApiArticleResponse
+
+		resp := apiserviceclient.GetApi(c, &data)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+		assert.Equal(t, expectedData.modelexpected, data)
+
+	})
+
+}
+
+func TestPost201Created(t *testing.T) {
+
+	modelPayload := *apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Phone", 5, 210))
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusCreated),
+		statusexpected:     "201 Created",
+	}
+
+	t.Run("Test PostApi for creating an ApiArticleResponse ", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusCreated)
+		}))
+		defer svr.Close()
+		c := svr.URL
+
+		resp := apiserviceclient.PostApi(c, modelPayload)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
+}
+
+func TestPost400BadRequest(t *testing.T) {
+
+	modelPayload := *apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Phone", 5, 210))
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusBadRequest),
+		statusexpected:     "400 Bad Request",
+	}
+
+	t.Run("Test PostApi to obtain 400 Bad Request", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusBadRequest)
+		}))
+		defer svr.Close()
+		c := svr.URL
+
+		resp := apiserviceclient.PostApi(c, modelPayload)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
+}
+
+func TestPost500StatusInternalServerError(t *testing.T) {
+
+	modelPayload := *apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Phone", 5, 210))
+
+	type testData struct {
+		statusexpected     string
+		statusCodeexpected int
+	}
+
+	expectedData := testData{
+		statusCodeexpected: int(constants.StatusInternalServerError),
+		statusexpected:     "500 Internal Server Error",
+	}
+
+	t.Run("Test PostApi to obtain 500 Internal Server Error", func(t *testing.T) {
+
+		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusInternalServerError)
+		}))
+		defer svr.Close()
+		c := svr.URL
+
+		resp := apiserviceclient.PostApi(c, modelPayload)
+		if resp.StatusCode != expectedData.statusCodeexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusCodeexpected, resp.StatusCode)
+		}
+		if resp.StatusMessage != expectedData.statusexpected {
+			t.Errorf("Expected result doesn't match with Actual result ..... Expected =  %v ..... Actual %v", expectedData.statusexpected, resp.StatusMessage)
+		}
+
+	})
 }
