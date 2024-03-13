@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	// fmt.Println(apiimplementation.GetArticleApi())
-	// fmt.Println(apiimplementation.GetArticleByIdApi("4"))
+	fmt.Println(apiimplementation.GetArticleApi())
+	fmt.Println(apiimplementation.GetArticleByIdApi("4"))
 
 	// at := apiimplementation.NewApiArticleResponse("", *apservice.NewArticleModel("Bed Srping air", 20, 400))
 	// postresponse := apiimplementation.PostCreateArticleApi(at)
